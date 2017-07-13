@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Charts
+import Charts // You need this line to be able to use Charts Library
 class ViewController: UIViewController {
 
     @IBOutlet weak var txtTextBox: UITextField!
@@ -57,7 +57,10 @@ class ViewController: UIViewController {
         
         data.addDataSet(line1) //Adds the line to the dataSet
         
+        
         chtChart.data = data //finally - it adds the chart data to the chart and causes an update
+        
+        chtChart.chartDescription?.text = "My awesome chart" // Here we set the description for the graph
         
     }
     
