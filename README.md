@@ -8,4 +8,4 @@ Any comments or issues, you can comment on my Medium post or make an issue on th
 Link to article: 
 https://medium.com/@OsianSmith/creating-a-line-chart-in-swift-3-and-ios-10-2f647c95392e
 
-© Osian Smith 2017. All rights resereved. Using this code happens at your own risk. 
+© Osian Smith 2017. All rights resereved. Use this code  at your own risk but with credit to Osian Smith 
