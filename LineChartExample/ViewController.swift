@@ -48,7 +48,7 @@ class ViewController: UIViewController {
             lineChartEntry.append(value) // here we add it to the data set
         }
 
-         let line1 = LineChartDataSet(values: lineChartEntry, label: "Number") //Here we convert lineChartEntry to a LineChartDataSet
+        let line1 = LineChartDataSet(entries: lineChartEntry, label: "Number") //Here we convert lineChartEntry to a LineChartDataSet
 
         line1.colors = [NSUIColor.blue] //Sets the colour to blue
 

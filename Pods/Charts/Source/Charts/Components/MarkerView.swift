@@ -12,8 +12,8 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
+#if canImport(AppKit)
+import AppKit
 #endif
 
 @objc(ChartMarkerView)
@@ -25,9 +25,9 @@ open class MarkerView: NSUIView, IMarker
     
     open func offsetForDrawing(atPoint point: CGPoint) -> CGPoint
     {
-        var offset = self.offset
+        guard let chart = chartView else { return self.offset }
         
-        let chart = self.chartView
+        var offset = self.offset
         
         let width = self.bounds.size.width
         let height = self.bounds.size.height
@@ -36,18 +36,18 @@ open class MarkerView: NSUIView, IMarker
         {
             offset.x = -point.x
         }
-        else if chart != nil && point.x + width + offset.x > chart!.bounds.size.width
+        else if point.x + width + offset.x > chart.bounds.size.width
         {
-            offset.x = chart!.bounds.size.width - point.x - width
+            offset.x = chart.bounds.size.width - point.x - width
         }
         
         if point.y + offset.y < 0
         {
             offset.y = -point.y
         }
-        else if chart != nil && point.y + height + offset.y > chart!.bounds.size.height
+        else if point.y + height + offset.y > chart.bounds.size.height
         {
-            offset.y = chart!.bounds.size.height - point.y - height
+            offset.y = chart.bounds.size.height - point.y - height
         }
         
         return offset
@@ -72,27 +72,28 @@ open class MarkerView: NSUIView, IMarker
     }
     
     @objc
-    open class func viewFromXib() -> MarkerView?
+    open class func viewFromXib(in bundle: Bundle = .main) -> MarkerView?
     {
         #if !os(OSX)
-            return Bundle.main.loadNibNamed(
-                String(describing: self),
-                owner: nil,
-                options: nil)?[0] as? MarkerView
+        
+        return bundle.loadNibNamed(
+            String(describing: self),
+            owner: nil,
+            options: nil)?[0] as? MarkerView
         #else
-            
-            var loadedObjects = NSArray()
-            let loadedObjectsPointer = AutoreleasingUnsafeMutablePointer<NSArray?>(&loadedObjects)
-            
-            if Bundle.main.loadNibNamed(
-                NSNib.Name(String(describing: self)),
-                owner: nil,
-                topLevelObjects: loadedObjectsPointer)
-            {
-                return loadedObjects[0] as? MarkerView
-            }
-            
-            return nil
+        
+        var loadedObjects = NSArray()
+        let loadedObjectsPointer = AutoreleasingUnsafeMutablePointer<NSArray?>(&loadedObjects)
+        
+        if bundle.loadNibNamed(
+            NSNib.Name(String(describing: self)),
+            owner: nil,
+            topLevelObjects: loadedObjectsPointer)
+        {
+            return loadedObjects[0] as? MarkerView
+        }
+        
+        return nil
         #endif
     }
     
